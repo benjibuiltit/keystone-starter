@@ -1,0 +1,30 @@
+{
+  "name": "bbi-keystone-starter",
+  "description": "A personalized Keystone JS starter project.",
+  "private": true,
+  "version": "5.0.6",
+  "author": "The KeystoneJS Development Team",
+  "contributors": ["benjibuiltit@gmail.com"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=10.0.0"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development DISABLE_LOGGING=true keystone dev",
+    "build": "cross-env NODE_ENV=production keystone build",
+    "start": "cross-env NODE_ENV=production keystone start",
+    "migrate:plan": "keystone upgrade-relationships",
+    "create-tables": "CREATE_TABLES=true keystone create-tables"
+  },
+  "dependencies": {
+    "@keystonejs/adapter-knex": "^9.0.1",
+    "@keystonejs/app-admin-ui": "^5.9.6",
+    "@keystonejs/app-graphql": "^5.1.5",
+    "@keystonejs/auth-password": "^5.1.6",
+    "@keystonejs/fields": "^9.0.1",
+    "@keystonejs/keystone": "^8.0.0",
+    "@keystonejs/list-plugins": "^5.1.4",
+    "cross-env": "^7.0.0",
+    "uuid": "^7.0.3"
+  }
+}

@@ -1,0 +1,67 @@
+const { atTracking } = require('@keystonejs/list-plugins');
+const { byTracking } = require('@keystonejs/list-plugins');
+const { Uuid, Text, Checkbox, Password, Relationship } = require('@keystonejs/fields');
+const { v4 } = require('uuid');
+
+// Access control functions
+const userIsAdmin = ({ authentication: { item: user } }) => Boolean(user && user.isAdmin);
+const userOwnsItem = ({ authentication: { item: user } }) => {
+  if (!user) {
+    return false;
+  }
+  return { id: user.id };
+};
+
+const userIsAdminOrOwner = auth => {
+  const isAdmin = access.userIsAdmin(auth);
+  const isOwner = access.userOwnsItem(auth);
+  return isAdmin ? isAdmin : isOwner;
+};
+
+const access = { userIsAdmin, userOwnsItem, userIsAdminOrOwner };
+
+const list = {
+  name: 'User',
+  schema: {
+    fields: {
+      id: { type: Uuid, defaultValue: v4, isRequired: true, isUnique: true },
+      firstName: { type: Text },
+      lastName: { type: Text },
+      email: {
+        type: Text,
+        isUnique: true,
+      },
+      isAdmin: {
+        type: Checkbox,
+        defaultValue: false,
+        // Field-level access controls
+        // Here, we set more restrictive field access so a non-admin cannot make themselves admin.
+        access: {
+          update: access.userIsAdmin,
+        },
+      },
+      tenants: {
+        type: Relationship,
+        ref: 'Tenant.users',
+        many: true
+      },
+      password: {
+        type: Password,
+      },
+    },
+    // List-level access controls
+    access: {
+      read: access.userIsAdminOrOwner,
+      update: access.userIsAdminOrOwner,
+      create: access.userIsAdmin,
+      delete: access.userIsAdmin,
+      auth: true,
+    },
+    plugins: [
+      atTracking(),
+      byTracking()
+    ]
+  }
+};
+
+module.exports = list;
