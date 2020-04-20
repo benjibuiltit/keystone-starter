@@ -19,4 +19,4 @@ Make sure your db is running. `docker-compose up`.
 
 Once running, the Keystone Admin UI is reachable via `localhost:3000/admin`.
 
-The GraphQL API is availbe at localhost:3000/admin/graphiql
+The GraphQL API is availbe at http://localhost:3000/admin/graphiql
