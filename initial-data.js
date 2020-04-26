@@ -20,9 +20,7 @@ module.exports = async keystone => {
   );
 
   if (tenantsCount === 0) {
-    await keystone.executeQuery(
-      ``
-    )
+    //TODO: Create a tenant, and pass the id into the createUser mutation
   }
 
   if (usersCount === 0) {
@@ -31,13 +29,16 @@ module.exports = async keystone => {
 
     await keystone.executeQuery(
       `mutation initialUser($password: String, $email: String) {
-            createUser(data: {
-              firstName: "Benji",
-              lastName: "Speer",
-              email: $email, isAdmin: true, password: $password}) {
-              id
-            }
-          }`,
+        createUser(data: {
+          firstName: "Benji",
+          lastName: "Speer",
+          email: $email,
+          isAdmin: true,
+          password: $password
+        }) {
+          id
+        }
+      }`,
       {
         variables: {
           password,

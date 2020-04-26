@@ -27,7 +27,7 @@ fs.readdirSync(pathToLists).forEach(function(file) {
   keystone.createList(list.name, list.schema);
 });
 
-const authStrategy = keystone.createAuthStrategy({
+const passwordAuth = keystone.createAuthStrategy({
   type: PasswordAuthStrategy,
   list: 'User',
 });
@@ -38,7 +38,7 @@ module.exports = {
     new GraphQLApp(),
     new AdminUIApp({
       enableDefaultRoute: true,
-      authStrategy,
+      authStrategy: passwordAuth
     }),
   ],
 };
