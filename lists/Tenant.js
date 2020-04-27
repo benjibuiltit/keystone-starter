@@ -19,7 +19,7 @@ const list = {
       },
       users: {
         type: Relationship,
-        ref: 'Users.tenants',
+        ref: 'User.tenants',
         many: true
       }
     },
